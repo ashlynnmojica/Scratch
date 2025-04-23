@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Guess That Word - Chapel Roan</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fce4ec;
+      color: #333;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    .hidden { display: none; }
+    #lyrics { font-size: 1.2rem; margin-bottom: 1rem; }
+    input, button { padding: 0.5rem; margin: 0.5rem 0; }
+    #score, #timer { font-weight: bold; }
+    #restartBtn { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Guess That Word: Chapel Roan Edition</h1>
+  <p id="timer">Time Left: 60s</p>
+  <p id="score">Score: 0</p>
+  <div id="lyrics"></div>
+  <input type="text" id="guessInput" placeholder="Guess the missing word...">
+  <button onclick="checkGuess()">Submit</button>
+  <button onclick="getHint()">Hint</button>
+  <button id="restartBtn" onclick="restartGame()">Restart Game</button>
+  <p id="result"></p>
+
+  <script>
+    const allSongs = [
+      {
+        answer: "babe",
+        hints: [
+          "Good luck ___, I hope she makes you smile",
+          "Good luck babe, I hope she makes you smile in that same way"
+        ]
+      },
+      {
+        answer: "supernova",
+        hints: [
+          "Red wine ___ lighting up the sky",
+          "Red wine supernova lighting up the sky like the Fourth of July"
+        ]
+      },
+      {
+        answer: "go",
+        hints: [
+          "I'm hot to ___, can't you see?",
+          "I'm hot to go, can't you see? It's all over me"
+        ]
+      },
+      {
+        answer: "club",
+        hints: [
+          "Dancing at the Pink Pony ___",
+          "Dancing at the Pink Pony Club in West Hollywood"
+        ]
+      },
+      {
+        answer: "manhattan",
+        hints: [
+          "Naked in ___, I didn't think I'd fall",
+          "Naked in Manhattan, I didn't think I'd fall for you at all"
+        ]
+      },
+      {
+        answer: "casual",
+        hints: [
+          "I'm just ___ about it, no drama",
+          "I'm just casual about it, no drama, no stress"
+        ]
+      },
+      {
+        answer: "girl",
+        hints: [
+          "Super graphic ultra modern ___",
+          "Super graphic ultra modern girl taking on the world"
+        ]
+      },
+      {
+        answer: "karma",
+        hints: [
+          "My kink is ___, I love the payback",
+          "My kink is karma, I love the payback, sweet like a heart attack"
+        ]
+      },
+      {
+        answer: "femininomenon",
+        hints: [
+          "She's a ___, feel the power rise",
+          "She's a femininomenon, feel the power rise, watch the city come alive"
+        ]
+      }
+    ];
+
+    let remainingSongs = [];
+    let currentSong, hintIndex = 0, score = 0, timer;
+    const lyricsEl = document.getElementById('lyrics');
+    const resultEl = document.getElementById('result');
+    const scoreEl = document.getElementById('score');
+    const timerEl = document.getElementById('timer');
+    const restartBtn = document.getElementById('restartBtn');
+
+    function shuffleSongs() {
+      remainingSongs = [...allSongs].sort(() => Math.random() - 0.5);
+    }
+
+    function startGame() {
+      score = 0;
+      scoreEl.textContent = `Score: 0`;
+      restartBtn.style.display = 'none';
+      shuffleSongs();
+      nextSong();
+      startTimer();
+    }
+
+    function nextSong() {
+      if (remainingSongs.length === 0) shuffleSongs();
+      currentSong = remainingSongs.pop();
+      hintIndex = 0;
+      lyricsEl.textContent = currentSong.hints[hintIndex];
+      resultEl.textContent = '';
+      document.getElementById('guessInput').value = '';
+    }
+
+    function checkGuess() {
+      const guess = document.getElementById('guessInput').value.trim().toLowerCase();
+      if (guess === currentSong.answer.toLowerCase()) {
+        let points = 50 - (hintIndex * 10);
+        score += Math.max(points, 10);
+        scoreEl.textContent = `Score: ${score}`;
+        resultEl.textContent = `Correct! +${points} points.`;
+        if (score >= 500) {
+          clearInterval(timer);
+          resultEl.textContent = "🎉 You win! You reached 500 points!";
+          lyricsEl.textContent = '';
+          restartBtn.style.display = 'inline-block';
+        } else {
+          nextSong();
+        }
+      } else {
+        resultEl.textContent = "Try again!";
+      }
+    }
+
+    function getHint() {
+      if (hintIndex < currentSong.hints.length - 1) {
+        hintIndex++;
+        lyricsEl.textContent = currentSong.hints[hintIndex];
+      } else {
+        resultEl.textContent = "No more hints!";
+      }
+    }
+
+    function startTimer() {
+      let timeLeft = 60;
+      timer = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          resultEl.textContent = "⏳ Time's up! Try again!";
+          lyricsEl.textContent = '';
+          restartBtn.style.display = 'inline-block';
+        }
+      }, 1000);
+    }
+
+    function restartGame() {
+      clearInterval(timer);
+      timerEl.textContent = "Time Left: 60s";
+      resultEl.textContent = "";
+      startGame();
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
