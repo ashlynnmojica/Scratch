@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Date Idea Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffe0e9, #fff5e1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #ff4b7d;
+      margin-bottom: 1rem;
+    }
+
+    #idea {
+      font-size: 1.2rem;
+      color: #333;
+      margin: 1.5rem 0;
+      min-height: 60px;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      background-color: #ff4b7d;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e63e6d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>💘 Date Idea Generator 💘</h1>
+    <div id="idea">Click the button for a date idea!</div>
+    <button onclick="generateIdea()">Give Me an Idea</button>
+  </div>
+
+  <script>
+    const ideas = [
+      "Go on a picnic in a local park 🍓",
+      "Cook a new recipe together at home 🍳",
+      "Go stargazing with blankets and hot cocoa ✨",
+      "Have a themed movie night (80s, romcoms, etc.) 🎬",
+      "Visit a thrift store and pick outfits for each other 🛍️",
+      "Go for a scenic drive and listen to your favorite songs 🚗",
+      "Do a DIY project or art night together 🎨",
+      "Take a dance class or learn a routine online 💃🕺",
+      "Explore a nearby town or city for a mini road trip 🗺️",
+      "Volunteer at a shelter or do something kind together 💞",
+      "Try a couples yoga or meditation session 🧘‍♀️🧘‍♂️",
+      "Have a photo shoot in cute outfits 📸",
+      "Go to a bookstore and pick out books for each other 📚",
+      "Create a bucket list for future adventures 📝"
+    ];
+
+    function generateIdea() {
+      const randomIndex = Math.floor(Math.random() * ideas.length);
+      document.getElementById('idea').innerText = ideas[randomIndex];
+    }
+  </script>
+</body>
+</html>
